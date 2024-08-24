@@ -11,6 +11,9 @@ import {
 import type { MenuProps } from 'antd';
 import {Breadcrumb, Button, Layout, Menu, theme} from 'antd';
 import LongTermGoalsPage from "./pages/LongTermGoalsPage.tsx";
+import ReflectionPage from "./pages/ReflectionPage.tsx";
+import CharacterPage from "./pages/CharacterPage.tsx";
+import AchievementsPage from "./pages/AchievementsPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -18,8 +21,8 @@ type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
   label: React.ReactNode,
   key: React.Key,
-  icon?: React.ReactNode,
-  page?: React.ReactNode,
+  icon: React.ReactNode,
+  page: React.ReactNode,
   children?: MenuItem[],
 ): MenuItem {
   return {
@@ -32,31 +35,36 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Long-term goals', '0', <PieChartOutlined />, <LongTermGoalsPage/>),
-  getItem('Achievements', '1', <DesktopOutlined />),
-  getItem('Stats', '2', <DesktopOutlined />),
+  getItem('Achievements', 'achievements', <DesktopOutlined />, <AchievementsPage/>),
+  getItem('Long-term goals', 'goals', <PieChartOutlined />, <LongTermGoalsPage/>),
+  getItem('Character', 'character', <FileOutlined />, <CharacterPage/>),
+  getItem('Reflection', 'reflection', <FileOutlined />, <ReflectionPage/>),
+  // getItem('Stats', '2', <DesktopOutlined />),
   // getItem('Stats', 'sub1', <UserOutlined />, [
   //   getItem('Tom', '3'),
   //   getItem('Bill', '4'),
   //   getItem('Alex', '5'),
   // ]),
-  // getItem('Character', '3', <TeamOutlined />, [getItem('Team 1', '31'), getItem('Team 2', '32')]),
-  getItem('Character', '3', <FileOutlined />),
-  getItem('Feedback', '4', <FileOutlined />),
+  // getItem('CharacterPage', '3', <TeamOutlined />, [getItem('Team 1', '31'), getItem('Team 2', '32')]),
+  // getItem('Feedback', '4', <FileOutlined />),
 ];
 
 
 function App() {
+  const defaultSelectedKey = 'achievements'
   const [collapsed, setCollapsed] = useState(false)
-  const [selected, setSelected] = useState(0)
+  const [selectedKey, setSelectedKey] = useState(defaultSelectedKey)
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const onMenuChange = ({domEvent}:{domEvent: any}) => {
-    setSelected(domEvent.target.innerHTML as string)
+  const onMenuChange = ({domEvent, key}:{domEvent: any, key: string}) => {
     console.log('menu changed', domEvent.target.innerHTML)
-    // console.log(item.key, item.className, item.type)
+    setSelectedKey(key)
+  }
+
+  const getSelectedItem = () => {
+    return items.find((item) => item.key == selectedKey)
   }
 
   return (
@@ -64,13 +72,13 @@ function App() {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
           <div className="demo-logo-vertical" />
-          <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline" items={items} onSelect={onMenuChange} />
+          <Menu theme="dark" defaultSelectedKeys={[defaultSelectedKey]} mode="inline" items={items} onSelect={onMenuChange} />
         </Sider>
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>{items[selected]?.label}</Breadcrumb.Item>
+              <Breadcrumb.Item>{getSelectedItem()!.label}</Breadcrumb.Item>
               {/*<Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
             </Breadcrumb>
             <div
@@ -81,8 +89,7 @@ function App() {
                 borderRadius: borderRadiusLG,
               }}
             >
-              Bill is a cat.
-              {items.find((item) => item.key == selected)?.page}
+              {getSelectedItem()!.page}
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
