@@ -89,7 +89,7 @@ function App() {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            Reflex ©{new Date().getFullYear()} Created by Leveroff Apps
           </Footer>
       </Layout>
     </>
