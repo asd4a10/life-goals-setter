@@ -39,16 +39,12 @@ const items: MenuItem[] = [
   getItem('Long-term goals', 'goals', <PieChartOutlined />, <LongTermGoalsPage/>),
   getItem('Character', 'character', <FileOutlined />, <CharacterPage/>),
   getItem('Reflection', 'reflection', <FileOutlined />, <ReflectionPage/>),
-  // getItem('Stats', '2', <DesktopOutlined />),
-  // getItem('Stats', 'sub1', <UserOutlined />, [
-  //   getItem('Tom', '3'),
-  //   getItem('Bill', '4'),
-  //   getItem('Alex', '5'),
-  // ]),
-  // getItem('CharacterPage', '3', <TeamOutlined />, [getItem('Team 1', '31'), getItem('Team 2', '32')]),
-  // getItem('Feedback', '4', <FileOutlined />),
 ];
 
+const items2 = new Array(15).fill(null).map((_, index) => ({
+  key: index + 1,
+  label: `nav ${index + 1}`,
+}));
 
 function App() {
   const defaultSelectedKey = 'achievements'
@@ -69,22 +65,29 @@ function App() {
 
   return (
     <>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <div className="demo-logo-vertical" />
-          <Menu theme="dark" defaultSelectedKeys={[defaultSelectedKey]} mode="inline" items={items} onSelect={onMenuChange} />
-        </Sider>
-        <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }} />
-          <Content style={{ margin: '0 16px' }}>
+      <Layout className="flex flex-col items-center h-lvh w-full">
+        <Header className='w-full flex items-center dark' style={{  }}>
+          {/*<div className="demo-logo" />*/}
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={[selectedKey]}
+            items={items}
+            onSelect={onMenuChange}
+            style={{ flex: 'auto', minWidth: 0 }}
+          />
+        </Header>
+          <Content className={'h-full flex flex-col'} style={{ margin: '0 16px', width: '1200px'}}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>{getSelectedItem()!.label}</Breadcrumb.Item>
-              {/*<Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <div
+              className={'mx-auto w-full h-full'}
               style={{
                 padding: 24,
-                minHeight: 360,
+                minHeight: '360px',
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
@@ -95,7 +98,6 @@ function App() {
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©{new Date().getFullYear()} Created by Ant UED
           </Footer>
-        </Layout>
       </Layout>
     </>
   )
