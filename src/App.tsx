@@ -4,18 +4,16 @@ import './App.css'
 import {
   DesktopOutlined,
   FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
+  PieChartOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import {Breadcrumb, Button, Layout, Menu, theme} from 'antd';
+import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import LongTermGoalsPage from "./pages/LongTermGoalsPage.tsx";
 import ReflectionPage from "./pages/ReflectionPage.tsx";
 import CharacterPage from "./pages/CharacterPage.tsx";
 import AchievementsPage from "./pages/AchievementsPage.tsx";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
@@ -41,14 +39,9 @@ const items: MenuItem[] = [
   getItem('Reflection', 'reflection', <FileOutlined />, <ReflectionPage/>),
 ];
 
-const items2 = new Array(15).fill(null).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
 
 function App() {
   const defaultSelectedKey = 'achievements'
-  const [collapsed, setCollapsed] = useState(false)
   const [selectedKey, setSelectedKey] = useState(defaultSelectedKey)
   const {
     token: { colorBgContainer, borderRadiusLG },
